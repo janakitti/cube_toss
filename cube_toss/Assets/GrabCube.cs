@@ -14,10 +14,12 @@ public class GrabCube : MonoBehaviour {
 
     private bool isGrabbed;
     private bool isReleased;
+    private bool isMultiSelected;
+    private bool isMultiGrabbed = false;
 
-    public void SetCubeIsGrabbed(bool g)
+    public void SetIsMultiSelected(bool b)
     {
-        isGrabbed = g;
+        isMultiSelected = b;
     }
     
     private void OnMouseDown()
@@ -36,32 +38,20 @@ public class GrabCube : MonoBehaviour {
 
         return Camera.main.ScreenToWorldPoint(mousePoint);
     }
-
-    
-    private void OnMouseDrag()
-    {
-    }
-
     
     private void OnMouseUp()
     {
         isReleased = true;
     }
     
-
     // Use this for initialization
     void Start () {
 		
 	}
 
-    private void LateUpdate()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update () {
-       
+        /*
         if (isReleased)
         {
             Vector3 endPos = gameObject.transform.position - prevGrabPos;
@@ -86,37 +76,26 @@ public class GrabCube : MonoBehaviour {
             }
 
         }
-
-
-
-        /*
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (isGrabbed)
-            {
-
-                isGrabbed = false;
-                GetComponent<Renderer>().material = defaultMaterial;
-                Vector3 endPos = gameObject.transform.position - prevGrabPos;
-                float speed = (gameObject.transform.position - prevGrabPos).magnitude / Time.deltaTime;
-                gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
-            } else
-            {
-                isGrabbed = true;
-                GetComponent<Renderer>().material = selectedMaterial;
-                mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-                mOffset = gameObject.transform.position - GetMouseWorldPos();
-            }
-        } 
-        if (isGrabbed)
-        {
-
-            prevGrabPos = gameObject.transform.position;
-
-            transform.position = GetMouseWorldPos() + mOffset;
-        }
         */
-
+        if (isMultiSelected)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (isMultiGrabbed)
+                {
+                    Debug.Log("RELEASE");
+                } else
+                {
+                    Debug.Log("MULTI GRAB");
+                    mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+                    mOffset = gameObject.transform.position - GetMouseWorldPos();
+                }
+            }
+            if (Input.GetMouseButton(0))
+            {
+                transform.position = GetMouseWorldPos() + mOffset;
+            }
+        }
 
     }
 }

@@ -5,9 +5,12 @@ using UnityEngine;
 public class RectSelect : MonoBehaviour {
     public RectTransform selectionBox;
     public Camera camera;
-    private Vector2 startPos;
+    public MouseLook mouseLook;
 
+    private Vector2 startPos;
     private GrabCube[] cubes;
+    private bool isSelectMode = false;
+
 	// Use this for initialization
 	void Start () {
         cubes = FindObjectsOfType<GrabCube>();
@@ -15,18 +18,28 @@ public class RectSelect : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown("space"))
         {
-            startPos = Input.mousePosition;
+            isSelectMode = !isSelectMode;
+            mouseLook.SetIsLocked(true);
         }
-        if (Input.GetMouseButtonUp(0))
+        if (isSelectMode)
         {
-            CaptureSelectionBox();
+            if (Input.GetMouseButtonDown(0))
+            {
+                startPos = Input.mousePosition;
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                mouseLook.SetIsLocked(false);
+                CaptureSelectionBox();
+            }
+            if (Input.GetMouseButton(0))
+            {
+                UpdateSelectionBox(Input.mousePosition);
+            }
         }
-        if (Input.GetMouseButton(0))
-        {
-            UpdateSelectionBox(Input.mousePosition);
-        }
+
 	}
 
     void UpdateSelectionBox(Vector2 curMousePos)
@@ -54,10 +67,10 @@ public class RectSelect : MonoBehaviour {
             Vector3 screenPos = camera.WorldToScreenPoint(cube.transform.position);
             if (screenPos.x > botLeft.x && screenPos.x < topRight.x && screenPos.y > botLeft.y && screenPos.y < topRight.y)
             {
-                cube.SetCubeIsGrabbed(true);
+                cube.SetIsMultiSelected(true);
             } else
             {
-                cube.SetCubeIsGrabbed(false);
+                cube.SetIsMultiSelected(false);
             }
         }
     }
