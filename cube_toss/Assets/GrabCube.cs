@@ -21,8 +21,8 @@ public class GrabCube : MonoBehaviour {
     {
         mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
         mOffset = gameObject.transform.position - GetMouseWorldPos();
-        isGrabbed = true;
 
+        isGrabbed = true;
     }
 
     private Vector3 GetMouseWorldPos()
@@ -37,7 +37,6 @@ public class GrabCube : MonoBehaviour {
     
     private void OnMouseDrag()
     {
-        transform.position = GetMouseWorldPos() + mOffset;
     }
 
     
@@ -51,28 +50,44 @@ public class GrabCube : MonoBehaviour {
     void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-        if (isGrabbed && !isReleased)
-        {
+    private void LateUpdate()
+    {
+        
+    }
 
-            prevGrabPos = gameObject.transform.position;
-            GetComponent<Renderer>().material = selectedMaterial;
-        } else
-        {
-            GetComponent<Renderer>().material = defaultMaterial;
-        }
+    // Update is called once per frame
+    void Update () {
+
+        Debug.Log(prevGrabPos);
+        Debug.Log(gameObject.transform.position);
+        Debug.Log("----------------");
         if (isReleased)
         {
-            Vector3 endPos = GetMouseWorldPos() - prevGrabPos;
+            Vector3 endPos = gameObject.transform.position - prevGrabPos;
             Debug.Log(endPos);
-            float speed = (GetMouseWorldPos() - prevGrabPos).magnitude / Time.deltaTime;
+            float speed = endPos.magnitude / Time.deltaTime;
             gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
             isReleased = false;
             isGrabbed = false;
+        } else
+        {
+            if (isGrabbed)
+            {
+
+                prevGrabPos = gameObject.transform.position;
+
+                transform.position = GetMouseWorldPos() + mOffset;
+                GetComponent<Renderer>().material = selectedMaterial;
+            }
+            else
+            {
+                GetComponent<Renderer>().material = defaultMaterial;
+            }
+
         }
+
+
 
         /*
         if (Input.GetMouseButtonDown(0))
