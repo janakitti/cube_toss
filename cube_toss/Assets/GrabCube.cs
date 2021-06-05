@@ -51,32 +51,6 @@ public class GrabCube : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        /*
-        if (isReleased)
-        {
-            Vector3 endPos = gameObject.transform.position - prevGrabPos;
-            Debug.Log(endPos);
-            float speed = endPos.magnitude / Time.deltaTime;
-            gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
-            isReleased = false;
-            isGrabbed = false;
-        } else
-        {
-            if (isGrabbed)
-            {
-
-                prevGrabPos = gameObject.transform.position;
-
-                transform.position = GetMouseWorldPos() + mOffset;
-                GetComponent<Renderer>().material = selectedMaterial;
-            }
-            else
-            {
-                GetComponent<Renderer>().material = defaultMaterial;
-            }
-
-        }
-        */
         if (isMultiSelected)
         {
             if (Input.GetMouseButtonDown(0))
@@ -98,6 +72,33 @@ public class GrabCube : MonoBehaviour {
                 gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
                 isMultiSelected = false;
                 isMultiGrabbed = false;
+            }
+        } else
+        {
+            if (isReleased)
+            {
+                Vector3 endPos = gameObject.transform.position - prevGrabPos;
+                Debug.Log(endPos);
+                float speed = endPos.magnitude / Time.deltaTime;
+                gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
+                isReleased = false;
+                isGrabbed = false;
+            }
+            else
+            {
+                if (isGrabbed)
+                {
+
+                    prevGrabPos = gameObject.transform.position;
+
+                    transform.position = GetMouseWorldPos() + mOffset;
+                    GetComponent<Renderer>().material = selectedMaterial;
+                }
+                else
+                {
+                    GetComponent<Renderer>().material = defaultMaterial;
+                }
+
             }
         }
 
