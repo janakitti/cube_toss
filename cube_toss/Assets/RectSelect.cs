@@ -5,9 +5,11 @@ using UnityEngine;
 public class RectSelect : MonoBehaviour {
     public RectTransform selectionBox;
     private Vector2 startPos;
+
+    private GameObject[] cubes;
 	// Use this for initialization
 	void Start () {
-		
+        cubes = GameObject.FindGameObjectsWithTag("Cube");
 	}
 	
 	// Update is called once per frame
