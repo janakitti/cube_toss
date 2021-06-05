@@ -13,15 +13,17 @@ public class GrabCube : MonoBehaviour {
     private Vector3 prevGrabPos;
 
     private bool isGrabbed;
+    private bool isReleased;
 
 
-    /*
+    
     private void OnMouseDown()
     {
         mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
         mOffset = gameObject.transform.position - GetMouseWorldPos();
-        
-    }*/
+        isGrabbed = true;
+
+    }
 
     private Vector3 GetMouseWorldPos()
     {
@@ -32,18 +34,18 @@ public class GrabCube : MonoBehaviour {
         return Camera.main.ScreenToWorldPoint(mousePoint);
     }
 
-    /*
+    
     private void OnMouseDrag()
     {
         transform.position = GetMouseWorldPos() + mOffset;
     }
 
+    
     private void OnMouseUp()
     {
-        Vector3 endPos = gameObject.transform.position - prevGrabPos;
-        float speed = (gameObject.transform.position - prevGrabPos).magnitude / Time.deltaTime;
-        gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
-    }*/
+        isReleased = true;
+    }
+    
 
     // Use this for initialization
     void Start () {
@@ -53,6 +55,26 @@ public class GrabCube : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        if (isGrabbed && !isReleased)
+        {
+
+            prevGrabPos = gameObject.transform.position;
+            GetComponent<Renderer>().material = selectedMaterial;
+        } else
+        {
+            GetComponent<Renderer>().material = defaultMaterial;
+        }
+        if (isReleased)
+        {
+            Vector3 endPos = GetMouseWorldPos() - prevGrabPos;
+            Debug.Log(endPos);
+            float speed = (GetMouseWorldPos() - prevGrabPos).magnitude / Time.deltaTime;
+            gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
+            isReleased = false;
+            isGrabbed = false;
+        }
+
+        /*
         if (Input.GetMouseButtonDown(0))
         {
             if (isGrabbed)
@@ -78,8 +100,8 @@ public class GrabCube : MonoBehaviour {
 
             transform.position = GetMouseWorldPos() + mOffset;
         }
-        
-       
+        */
+
 
     }
 }
