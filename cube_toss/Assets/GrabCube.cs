@@ -9,7 +9,6 @@ public class GrabCube : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        Debug.Log("MOUSEDOWN");
         mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
         mOffset = gameObject.transform.position - GetMouseWorldPos();
     }
