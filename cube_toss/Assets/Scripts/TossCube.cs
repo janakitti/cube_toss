@@ -18,14 +18,11 @@ public class TossCube : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("AYOOO");
             if (grabbedObject == null)
             {
-                Debug.Log("Try Grab");
                 TryGrabObject(GetMouseOnObject(5));
             } else
             {
-                Debug.Log("Drop");
                 DropObject();
             }
         }

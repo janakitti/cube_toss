@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class RectSelect : MonoBehaviour {
     public RectTransform selectionBox;
+    public Camera camera;
     private Vector2 startPos;
 
-    private GameObject[] cubes;
+    private GrabCube[] cubes;
 	// Use this for initialization
 	void Start () {
-        cubes = GameObject.FindGameObjectsWithTag("Cube");
+        cubes = FindObjectsOfType<GrabCube>();
 	}
 	
 	// Update is called once per frame
@@ -20,7 +21,7 @@ public class RectSelect : MonoBehaviour {
         }
         if (Input.GetMouseButtonUp(0))
         {
-
+            CaptureSelectionBox();
         }
         if (Input.GetMouseButton(0))
         {
@@ -40,5 +41,24 @@ public class RectSelect : MonoBehaviour {
 
         selectionBox.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
         selectionBox.anchoredPosition = startPos + new Vector2(width / 2, height / 2);
+    }
+
+    void CaptureSelectionBox()
+    {
+        selectionBox.gameObject.SetActive(false);
+        Vector2 botLeft = selectionBox.anchoredPosition - (selectionBox.sizeDelta / 2);
+        Vector2 topRight = selectionBox.anchoredPosition + (selectionBox.sizeDelta / 2);
+
+        foreach (GrabCube cube in cubes)
+        {
+            Vector3 screenPos = camera.WorldToScreenPoint(cube.transform.position);
+            if (screenPos.x > botLeft.x && screenPos.x < topRight.x && screenPos.y > botLeft.y && screenPos.y < topRight.y)
+            {
+                cube.SetCubeIsGrabbed(true);
+            } else
+            {
+                cube.SetCubeIsGrabbed(false);
+            }
+        }
     }
 }

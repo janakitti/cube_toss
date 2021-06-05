@@ -15,7 +15,10 @@ public class GrabCube : MonoBehaviour {
     private bool isGrabbed;
     private bool isReleased;
 
-
+    public void SetCubeIsGrabbed(bool g)
+    {
+        isGrabbed = g;
+    }
     
     private void OnMouseDown()
     {
@@ -58,10 +61,7 @@ public class GrabCube : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
-        Debug.Log(prevGrabPos);
-        Debug.Log(gameObject.transform.position);
-        Debug.Log("----------------");
+       
         if (isReleased)
         {
             Vector3 endPos = gameObject.transform.position - prevGrabPos;
