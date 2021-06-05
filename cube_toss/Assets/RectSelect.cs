@@ -18,7 +18,7 @@ public class RectSelect : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("r"))
         {
             isSelectMode = !isSelectMode;
             mouseLook.SetIsLocked(!mouseLook.GetIsLocked());
