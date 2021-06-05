@@ -6,6 +6,7 @@ public class GrabCube : MonoBehaviour {
 
     public Material defaultMaterial;
     public Material selectedMaterial;
+    public Material multiSelectedMaterial;
 
     private Vector3 mOffset;
     private float mZCoord;
@@ -53,6 +54,7 @@ public class GrabCube : MonoBehaviour {
     void Update () {
         if (isMultiSelected)
         {
+            GetComponent<Renderer>().material = multiSelectedMaterial;
             if (Input.GetMouseButtonDown(0))
             {
                 mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
@@ -67,6 +69,7 @@ public class GrabCube : MonoBehaviour {
             }
             if (Input.GetMouseButtonUp(0) && isMultiGrabbed)
             {
+                GetComponent<Renderer>().material = defaultMaterial;
                 Vector3 endPos = gameObject.transform.position - prevGrabPos;
                 float speed = endPos.magnitude / Time.deltaTime;
                 gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
@@ -78,7 +81,6 @@ public class GrabCube : MonoBehaviour {
             if (isReleased)
             {
                 Vector3 endPos = gameObject.transform.position - prevGrabPos;
-                Debug.Log(endPos);
                 float speed = endPos.magnitude / Time.deltaTime;
                 gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
                 isReleased = false;
@@ -88,9 +90,7 @@ public class GrabCube : MonoBehaviour {
             {
                 if (isGrabbed)
                 {
-
                     prevGrabPos = gameObject.transform.position;
-
                     transform.position = GetMouseWorldPos() + mOffset;
                     GetComponent<Renderer>().material = selectedMaterial;
                 }

@@ -126,3 +126,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultMaterial: {fileID: 2100000, guid: b6f31aed7323924429e036eb10932cdc, type: 2}
   selectedMaterial: {fileID: 2100000, guid: 0458dd0ea6bf44f44a01384e50f4be59, type: 2}
+  multiSelectedMaterial: {fileID: 2100000, guid: e555b63d04f5a0c4cacbd736ea9d9e08,
+    type: 2}
