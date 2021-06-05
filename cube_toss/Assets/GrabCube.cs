@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class GrabCube : MonoBehaviour {
 
+    public Material defaultMaterial;
+    public Material selectedMaterial;
+
     private Vector3 mOffset;
     private float mZCoord;
 
     private Vector3 prevGrabPos;
 
     private bool isGrabbed;
+
 
     /*
     private void OnMouseDown()
@@ -55,12 +59,14 @@ public class GrabCube : MonoBehaviour {
             {
 
                 isGrabbed = false;
+                GetComponent<Renderer>().material = defaultMaterial;
                 Vector3 endPos = gameObject.transform.position - prevGrabPos;
                 float speed = (gameObject.transform.position - prevGrabPos).magnitude / Time.deltaTime;
                 gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
             } else
             {
                 isGrabbed = true;
+                GetComponent<Renderer>().material = selectedMaterial;
                 mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
                 mOffset = gameObject.transform.position - GetMouseWorldPos();
             }
