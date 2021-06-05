@@ -96,6 +96,8 @@ public class GrabCube : MonoBehaviour {
                 Vector3 endPos = gameObject.transform.position - prevGrabPos;
                 float speed = endPos.magnitude / Time.deltaTime;
                 gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
+                isMultiSelected = false;
+                isMultiGrabbed = false;
             }
         }
 

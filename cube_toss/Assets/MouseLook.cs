@@ -10,6 +10,11 @@ public class MouseLook : MonoBehaviour {
 
     float xRotation = 0f;
 
+    public bool GetIsLocked()
+    {
+        return isLocked;
+    }
+
     public void SetIsLocked(bool b)
     {
         isLocked = b;
@@ -21,6 +26,7 @@ public class MouseLook : MonoBehaviour {
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
+
 
 	// Use this for initialization
 	void Start () {

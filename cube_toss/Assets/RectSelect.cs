@@ -21,7 +21,8 @@ public class RectSelect : MonoBehaviour {
         if (Input.GetKeyDown("space"))
         {
             isSelectMode = !isSelectMode;
-            mouseLook.SetIsLocked(true);
+            mouseLook.SetIsLocked(!mouseLook.GetIsLocked());
+            Debug.Log(isSelectMode);
         }
         if (isSelectMode)
         {
@@ -32,6 +33,7 @@ public class RectSelect : MonoBehaviour {
             if (Input.GetMouseButtonUp(0))
             {
                 mouseLook.SetIsLocked(false);
+                isSelectMode = !isSelectMode;
                 CaptureSelectionBox();
             }
             if (Input.GetMouseButton(0))
