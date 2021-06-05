@@ -81,19 +81,21 @@ public class GrabCube : MonoBehaviour {
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (isMultiGrabbed)
-                {
-                    Debug.Log("RELEASE");
-                } else
-                {
-                    Debug.Log("MULTI GRAB");
-                    mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-                    mOffset = gameObject.transform.position - GetMouseWorldPos();
-                }
+                mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+                mOffset = gameObject.transform.position - GetMouseWorldPos();
+                isMultiGrabbed = true;
+                
             }
             if (Input.GetMouseButton(0))
             {
+                prevGrabPos = gameObject.transform.position;
                 transform.position = GetMouseWorldPos() + mOffset;
+            }
+            if (Input.GetMouseButtonUp(0) && isMultiGrabbed)
+            {
+                Vector3 endPos = gameObject.transform.position - prevGrabPos;
+                float speed = endPos.magnitude / Time.deltaTime;
+                gameObject.GetComponent<Rigidbody>().velocity = speed * endPos.normalized;
             }
         }
 
