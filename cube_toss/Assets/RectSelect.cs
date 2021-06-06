@@ -11,39 +11,35 @@ public class RectSelect : MonoBehaviour {
     private GrabCube[] cubes;
     private bool isSelectMode = false;
 
-	// Use this for initialization
-	void Start () {
-        
-	}
-	
-	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown("r"))
         {
             isSelectMode = !isSelectMode;
             mouseLook.SetIsLocked(!mouseLook.GetIsLocked());
-            Debug.Log(isSelectMode);
         }
         if (isSelectMode)
         {
+            // Record top left corner of rect on first click
             if (Input.GetMouseButtonDown(0))
             {
                 startPos = Input.mousePosition;
             }
+            // Update rect on drag
+            if (Input.GetMouseButton(0))
+            {
+                UpdateSelectionBox(Input.mousePosition);
+            }
+            // Capture rect on mouse release
             if (Input.GetMouseButtonUp(0))
             {
                 mouseLook.SetIsLocked(false);
                 isSelectMode = !isSelectMode;
                 CaptureSelectionBox();
             }
-            if (Input.GetMouseButton(0))
-            {
-                UpdateSelectionBox(Input.mousePosition);
-            }
         }
-
 	}
 
+    // Resize the rect based on start and current mouse positions
     void UpdateSelectionBox(Vector2 curMousePos)
     {
         if(!selectionBox.gameObject.activeInHierarchy)
@@ -55,9 +51,12 @@ public class RectSelect : MonoBehaviour {
         float height = curMousePos.y - startPos.y;
 
         selectionBox.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
+
+        // / 2 to account for achor being in middle of rect
         selectionBox.anchoredPosition = startPos + new Vector2(width / 2, height / 2);
     }
 
+    // Record the dimensions of the rect and search for Cubes within
     void CaptureSelectionBox()
     {
         cubes = FindObjectsOfType<GrabCube>();
@@ -68,7 +67,10 @@ public class RectSelect : MonoBehaviour {
         foreach (GrabCube cube in cubes)
         {
             Vector3 screenPos = camera.WorldToScreenPoint(cube.transform.position);
-            if (screenPos.x > botLeft.x && screenPos.x < topRight.x && screenPos.y > botLeft.y && screenPos.y < topRight.y)
+            if (screenPos.x > botLeft.x && 
+                screenPos.x < topRight.x && 
+                screenPos.y > botLeft.y && 
+                screenPos.y < topRight.y)
             {
                 cube.SetIsMultiSelected(true);
             } else

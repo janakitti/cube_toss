@@ -15,10 +15,12 @@ public class MouseLook : MonoBehaviour {
         return isLocked;
     }
 
-    public void SetIsLocked(bool b)
+    public void SetIsLocked(bool isLocked)
     {
-        isLocked = b;
-        if (isLocked)
+        this.isLocked = isLocked;
+
+        // Lock/unlock cursor on screen
+        if (this.isLocked)
         {
             Cursor.lockState = CursorLockMode.None;
         } else
@@ -27,17 +29,15 @@ public class MouseLook : MonoBehaviour {
         }
     }
 
-
-	// Use this for initialization
 	void Start () {
         Cursor.lockState = CursorLockMode.Locked;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 
         if (!isLocked)
         {
+            // Head rotation
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
@@ -46,7 +46,6 @@ public class MouseLook : MonoBehaviour {
 
             transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             playerBody.Rotate(Vector3.up * mouseX);
-
         }
     }
 }
