@@ -13,7 +13,7 @@ public class RectSelect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        cubes = FindObjectsOfType<GrabCube>();
+        
 	}
 	
 	// Update is called once per frame
@@ -60,6 +60,7 @@ public class RectSelect : MonoBehaviour {
 
     void CaptureSelectionBox()
     {
+        cubes = FindObjectsOfType<GrabCube>();
         selectionBox.gameObject.SetActive(false);
         Vector2 botLeft = selectionBox.anchoredPosition - (selectionBox.sizeDelta / 2);
         Vector2 topRight = selectionBox.anchoredPosition + (selectionBox.sizeDelta / 2);
